@@ -2,8 +2,6 @@ mod conf;
 mod errors;
 use structopt::StructOpt;
 
-
-
 #[derive(Debug, StructOpt)]
 #[structopt(name = "example", about = "An example program.")]
 pub struct Opt {
@@ -11,7 +9,6 @@ pub struct Opt {
     #[structopt(short = "f", long = "file", default_value = "example.toml")]
     pub file: String,
 }
-
 
 fn main() {
     let opt = Opt::from_args();
@@ -25,9 +22,3 @@ fn main() {
     }
     println!("Hello, world!");
 }
-
-
-
-
-
-

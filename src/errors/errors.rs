@@ -68,4 +68,5 @@ impl fmt::Display for RdlpError {
             RdlpError::ErrMaskStructOutput => write!(f, "mask struct output"),
             RdlpError::ErrOnlyForLog => write!(f, "only for log"),
         }
-    }}  // impl fmt::Display for RdlpError
+    }
+} // impl fmt::Display for RdlpError

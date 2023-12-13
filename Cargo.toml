@@ -1,11 +1,39 @@
+# Cargo.toml
+#
+# This is the configuration file for the project "rdlp".
+# It contains information about the project such as its name, version,
+# and dependencies.
+#
+# Author: @bayuncao
+# License: MIT
+#
+# Dependencies:
+# - toml: 0.8.8
+# - structopt: 0.3
+# - serde: 1.0 (with "derive" feature)
+# - log: 0.4
+# - env_logger: 0.9.3
+#
+# Macros: macros.rs
+#
+# This file is part of the "rdlp" project, which is a Rust program for XYZ.
+# It is used to configure the project and specify its dependencies.
+#
+# Usage: This file should be placed in the root directory of the project
+# and should not be modified directly unless you know what you're doing.
+
 [project]
 name = "rdlp"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 toml = "0.8.8"
 structopt = "0.3"
 serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+env_logger = "0.9.3"
+
+
+

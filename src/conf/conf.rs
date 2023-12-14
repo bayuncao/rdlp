@@ -4,7 +4,10 @@ use std::fs;
 
 common_struct_trait!(Summary, name: String, date: String, version: String, author: String, license: String);
 common_struct_trait!(Switch, enable: Vec<u32>, disable: Vec<u32>);
-common_struct_trait!(Item, id: u32, name: String);
+common_struct_trait!(Item, id: u32, name: String, category: String, desc: String, level: u32, detect: Detect, filter: Filter, verify: Verify);
+common_struct_trait!(Detect, reg: Vec<String>, list: Vec<String>);
+common_struct_trait!(Filter, reg: Vec<String>, list: Vec<String>);
+common_struct_trait!(Verify, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Rules, switch: Switch, item: Vec<Item>);
 common_struct_trait!(Conf, summary: Summary, rules: Rules);
 
@@ -25,7 +28,7 @@ mod tests {
 
     #[test]
     fn test_parse_config() {
-        let toml_str = fs::read_to_string("development.toml").expect("Could not read TOML file");
+        let toml_str = fs::read_to_string("./development.toml").expect("Could not read TOML file");
 
         let config = parse_config(&toml_str).unwrap();
 
@@ -41,8 +44,29 @@ mod tests {
         println!("Disable: {:?}", config.rules.switch.disable);
 
         println!("\nItems:");
+
         for item in config.rules.item {
-            println!("Id: {}, Name: {}", item.id, item.name);
-        }
+            println!("ID: {}", item.id);
+            println!("Name: {}", item.name);
+            println!("Category: {}", item.category);
+            println!("Desc: {}", item.desc);
+            println!("Level: {}", item.level);
+
+            println!("\nDetect:");
+            println!("Reg: {:?}", item.detect.reg);
+            println!("List: {:?}", item.detect.list);
+
+            println!("\nFilter:");
+            println!("Reg: {:?}", item.filter.reg);
+            println!("List: {:?}", item.filter.list);
+
+            println!("\nVerify:");
+            println!("Reg: {:?}", item.verify.reg);
+            println!("List: {:?}", item.verify.list);
+        };
+        
+
+  
+
     }
 }

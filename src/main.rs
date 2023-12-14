@@ -3,10 +3,10 @@ mod errors;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
-#[structopt(name = "example", about = "An example program.")]
+#[structopt(name = "rdlp", about = "An example program.")]
 pub struct Opt {
     /// File to read
-    #[structopt(short = "f", long = "file", default_value = "example.toml")]
+    #[structopt(short = "f", long = "file", default_value = "development.toml")]
     pub file: String,
 }
 

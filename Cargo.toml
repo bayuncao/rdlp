@@ -13,6 +13,8 @@
 # - serde: 1.0 (with "derive" feature)
 # - log: 0.4
 # - env_logger: 0.9.3
+# - lazy_static: 1.4.0
+# - once_cell: 1.7.2
 #
 # Macros: macros.rs
 #
@@ -22,7 +24,7 @@
 # Usage: This file should be placed in the root directory of the project
 # and should not be modified directly unless you know what you're doing.
 
-[project]
+[package]
 name = "rdlp"
 version = "0.1.0"
 edition = "2021"
@@ -34,6 +36,6 @@ structopt = "0.3"
 serde = { version = "1.0", features = ["derive"] }
 log = "0.4"
 env_logger = "0.9.3"
-
-
-
+lazy_static = "1.4.0"
+once_cell = "1.7.2"
+clap = { version = "4.4.11", features = ["derive"] }

@@ -1,2 +1,1 @@
-pub mod conf;
-pub use conf::Conf;
+pub use conf::SINGLETON_CONF;

@@ -1,24 +1,32 @@
-mod conf;
-mod errors;
-use structopt::StructOpt;
+use clap::{Args, Parser, Subcommand};
 
-#[derive(Debug, StructOpt)]
-#[structopt(name = "rdlp", about = "An example program.")]
-pub struct Opt {
-    /// File to read
-    #[structopt(short = "f", long = "file", default_value = "development.toml")]
-    pub file: String,
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+#[command(propagate_version = true)]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands,
+}
+
+#[derive(Subcommand)]
+enum Commands {
+    /// Adds files to myapp
+    Add(Add),
+}
+
+#[derive(Args)]
+struct Add {
+    name: Option<String>,
 }
 
 fn main() {
-    let opt = Opt::from_args();
-    match conf::conf::from_file(&opt.file) {
-        Ok(config) => {
-            println!("Config: {:?}", config);
-        }
-        Err(e) => {
-            eprintln!("Failed to read config: {}", e);
+    let cli = Cli::parse();
+
+    // You can check for the existence of subcommands, and if found use their
+    // matches just as you would the top level cmd
+    match &cli.command {
+        Commands::Add(name) => {
+            println!("'myapp add' was used, name is: {:?}", name.name)
         }
     }
-    println!("Hello, world!");
 }

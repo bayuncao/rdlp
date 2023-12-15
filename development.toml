@@ -7,6 +7,13 @@ license = "MIT"
 
 [rules]
 
+[rules.mask]
+
+symbol = "*"
+length = 4
+start_index = 3
+
+
 [rules.switch]
 enable = [1, 3, 5]
 disable = [2, 4, 6]
@@ -43,4 +50,5 @@ filter.list = [ "filter.list1", "filter.list2", "filter.list3"]
 
 verify.reg = [ "verify.reg1", "verify.reg2", "verify.reg3"]
 verify.list = [ "verify.list1", "verify.list2", "verify.list3"]
+
 

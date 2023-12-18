@@ -1,6 +1,10 @@
+
 .PHONY: build test clean run update
 
-build:
+release:
+	cargo build --release
+
+debug:
 	cargo build
 
 fmt:

@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+/// Represents a result object.
 pub struct Result {
     id: i32,
     text: String,

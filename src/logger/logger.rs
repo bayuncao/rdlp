@@ -1,4 +1,3 @@
-pub mod logger;
 
 use log::{LevelFilter, Log, Metadata, Record, SetLoggerError};
 use env_logger::Builder;

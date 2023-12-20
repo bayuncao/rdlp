@@ -8,7 +8,7 @@ use std::sync::{Arc, Mutex};
 common_struct_trait!(Summary, name: String, date: String, version: String, author: String, license: String);
 common_struct_trait!(Switch, enable: Vec<u32>, disable: Vec<u32>);
 common_struct_trait!(Mask, symbol: String, length: u32, start_index: u32);
-common_struct_trait!(Item, id: u32, name: String, category: String, desc: String, level: u32, detect: Detect, filter: Filter, verify: Verify);
+common_struct_trait!(Item, id: u32, name: String, category: String, description: String, level: u32, detect: Detect, filter: Filter, verify: Verify);
 common_struct_trait!(Detect, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Filter, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Verify, reg: Vec<String>, list: Vec<String>);
@@ -88,7 +88,7 @@ mod tests {
             println!("\n\nID: {}", item.id);
             println!("Name: {}", item.name);
             println!("Category: {}", item.category);
-            println!("Desc: {}", item.desc);
+            println!("Description: {}", item.description);
             println!("Level: {}", item.level);
 
             println!("\nDetect:");
@@ -104,5 +104,4 @@ mod tests {
             println!("List: {:?}", item.verify.list);
         }
     }
-       
 }

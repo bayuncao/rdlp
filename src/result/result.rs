@@ -1,18 +1,26 @@
 use std::collections::HashMap;
 
-/// Represents a result object.
+/// Represents a result with various fields.
 pub struct Result {
-    id: i32,
+    /*
+       Fields from configuration file [[rules.item]]
+    */
+    id: u32,
+    name: String,
+    category: String,
+    description: String,
+    level: u32,
+
+    /*
+       Fields from configuration file [rules.mask]
+    */
+    symbol: String,
+    length: u32,
+    start_index: u32,
+
+    /*
+       Fields from the Result struct
+    */
     text: String,
     mask_text: String,
-    result_type: String,
-    key: String,
-    byte_start: usize,
-    byte_end: usize,
-    info_type: String,
-    en_name: String,
-    cn_name: String,
-    group_name: String,
-    level: String,
-    ext_info: HashMap<String, String>,
 }

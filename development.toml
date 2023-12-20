@@ -19,36 +19,118 @@ enable = [1, 3, 5]
 disable = [2, 4, 6]
 
 
+
+
 [[rules.item]]
 id = 1
-name = "item1"
-category = "PHONE"
-desc = "item1"
+name = "phone"
+category = "ASSETS"
+description = "PHONE | 手机号"
 level = 4
 
-detect.reg = ["detect.reg1", "detect.reg2", "detect.reg3"]
-detect.list = [ "detect.list1", "detect.list2", "detect.list3"]
+detect.reg = [
+    "1(?:(((3[0-9])|(4[5-9])|(5[0-35-9])|(6[2,5-7])|(7[0135-8])|(8[0-9])|(9[0-35-9]))[ -]?\\d{4}[ -]?\\d{4})|((74)[ -]?[0-5]\\d{3}[ -]?\\d{4}))\\b",
+]
+detect.list = []
 
-filter.reg = [ "filter.reg1", "filter.reg2", "filter.reg3"]
-filter.list = [ "filter.list1", "filter.list2", "filter.list3"]
+filter.reg = []
+filter.list = []
 
-verify.reg = [ "verify.reg1", "verify.reg2", "verify.reg3"]
-verify.list = [ "verify.list1", "verify.list2", "verify.list3"]
+verify.reg = []
+verify.list = [
+    "contact_phone",
+    "remark_mobiles",
+    "ContactPhone",
+    "phone",
+    "phones",
+    "number",
+    "telephone",
+    "telephones",
+    "cell",
+    "mobile",
+    "office",
+    "call",
+    "cellphone",
+    "cellphones",
+    "smartphone",
+    "smartphones",
+    "num",
+    "no",
+    "tel",
+    "linktel",
+    "contact",
+    "contactinfo",
+    "phoneno",
+    "phonenum",
+    "phonenumber",
+    "telephone_no",
+    "telephoneno",
+    "telephonenum",
+    "telephonenumber",
+    "mobilephoneno",
+    "mobliephonenum",
+    "mobilephonenumber",
+    "mobileno",
+    "moblieenum",
+    "mobilenumber",
+    "mobilecode",
+    "手机号",
+    "传真",
+    "手机",
+    "号码",
+    "联系",
+    "电话",
+]
 
 [[rules.item]]
 id = 2
-name = "item2"
-category = "PHONE"
-desc = "item2"
+name = "email"
+category = "ASSETS"
+description = "EMAIL | 邮箱"
 level = 4
 
-detect.reg = ["detect.reg1", "detect.reg2", "detect.reg3"]
-detect.list = [ "detect.list1", "detect.list2", "detect.list3"]
+detect.reg = [
+    "\b(((([*+\\-=?^_{|}~\\w])|([*+\\-=?^_{|}~\\w][*+\\-=?^_{|}~\\.\\w]{0,}[*+\\-=?^_{|}~\\w]))[@]\\w+([-.]\\w+)*\\.[A-Za-z]{2,8}))\b",
+]
+detect.list = []
 
-filter.reg = [ "filter.reg1", "filter.reg2", "filter.reg3"]
-filter.list = [ "filter.list1", "filter.list2", "filter.list3"]
+filter.reg = []
+filter.list = []
 
-verify.reg = [ "verify.reg1", "verify.reg2", "verify.reg3"]
-verify.list = [ "verify.list1", "verify.list2", "verify.list3"]
+verify.reg = []
+verify.list = ["email", "mail", "e-mail"]
 
+[[rules.item]]
+id = 3
+name = "chinese_id_card"
+category = "IDENTITY"
+description = "Chinese ID CARD | 中国身份证(18位)"
+level = 4
 
+detect.reg = [
+    "\b((1[1-5]|2[1-3]|3[1-7]|4[1-6]|5[0-4]|6[1-5]|[7-9]1)\\d{4}(18|19|20)\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx])\b",
+]
+detect.list = []
+
+filter.reg = []
+filter.list = []
+
+verify.reg = []
+verify.list = []
+
+[[rules.item]]
+
+id = 4
+name = "unionpay_card_number"
+category = "FINANCE"
+description = "UNIONPAY CARD NUMBER | 银联卡号"
+level = 4
+
+detect.reg = ["\\b62\\d{11,17}\b"]
+detect.list = []
+
+filter.reg = []
+filter.list = []
+
+verify.reg = []
+verify.list = ["debit","card","visa debit","unionpay","借记卡"]

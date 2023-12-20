@@ -41,7 +41,7 @@ struct Test {
         help = "Validate the given configuration file (default is <development.toml>)"
     )]
     file: String,
-}   
+}
 
 #[derive(Args)]
 struct Server {

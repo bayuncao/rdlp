@@ -1,5 +1,0 @@
-"My email is john.doe@example.com and my password is Password123!"
-"Just updated my banking password to SecurePass2021."
-"My login for the system is 'admin' and the password is 'admin123'."
-"Hey, can you log into my account? My username is 'user' and password is 'pass'."
-"My password for the email john.doe@example.com is 'mysecretpassword'."

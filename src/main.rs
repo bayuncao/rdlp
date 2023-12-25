@@ -1,3 +1,9 @@
+mod conf;
+mod engine;
+mod logger;
+mod result;
+use crate::conf::conf::Conf;
+use crate::engine::engine::Worker;
 use clap::{Args, Parser, Subcommand};
 
 #[derive(Parser)]
@@ -72,13 +78,21 @@ struct Local {
     suffix: String,
 }
 
-fn main() {
+
+
+
+#[tokio::main]
+async fn main() {
     let cli = Cli::parse();
 
     match &cli.command {
         Commands::Doctor(_) => {}
         Commands::Test(test) => {
             let file = &test.file;
+            match validate_config(file) {
+                Ok(_) => println!("Configuration file is valid."),
+                Err(e) => println!("Configuration file is invalid: {}", e),
+            }
         }
         Commands::Run(run) => match run {
             Run::Server(server) => {
@@ -87,7 +101,28 @@ fn main() {
             Run::Local(local) => {
                 let directory = &local.directory;
                 let suffix = &local.suffix;
+
+                let worker = Worker::new();
+                let data: Vec<String> = vec!["text sample 1".to_string(), "text sample 2".to_string()];
+                // let rules = vec![Conf::Rules::Item];
+                // worker.async_detect(data, rules).await.unwrap();
             }
         },
     }
+}
+
+
+
+
+pub fn validate_config(file: &str) -> Result<(), &'static str> {
+    let conf_string = std::fs::read_to_string(file).map_err(|_| "Failed to read configuration file")?;
+    let conf: Conf = toml::from_str(&conf_string).map_err(|_| "Failed to parse configuration file")?;
+
+    // Check each configuration item
+    // This is a placeholder, replace it with your actual validation logic
+    for item in &conf.rules.item {
+        let _ = item;
+    }
+
+    Ok(())
 }

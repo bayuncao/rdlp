@@ -5,6 +5,13 @@ version = "v0.0.1"
 author = "@bayuncao"
 license = "MIT"
 
+
+[logger]
+output = "both"  # 可选项: "file", "console", "both"
+log_file_path = "logs/app.log"
+log_level = "info"  # 可选级别: "error", "warn", "info", "debug", "trace"
+
+
 [rules]
 
 [rules.mask]

@@ -6,6 +6,11 @@ use crate::conf::conf::Conf;
 use crate::engine::engine::Worker;
 use clap::{Args, Parser, Subcommand};
 
+use tokio::fs;
+use tokio::io::AsyncReadExt;
+use glob::glob;
+
+
 #[derive(Parser)]
 #[command(
     author = "bayuncao",
@@ -102,10 +107,28 @@ async fn main() {
                 let directory = &local.directory;
                 let suffix = &local.suffix;
 
-                let worker = Worker::new();
-                let data: Vec<String> = vec!["text sample 1".to_string(), "text sample 2".to_string()];
-                // let rules = vec![Conf::Rules::Item];
-                // worker.async_detect(data, rules).await.unwrap();
+                // Initialize Worker
+                let worker = Worker::new().unwrap(); // Handle error as needed
+
+                // Async read files and apply detection
+                let pattern = format!("{}/**/*{}", directory, suffix);
+                for entry in glob(&pattern).expect("Failed to read glob pattern") {
+                    match entry {
+                        Ok(path) => {
+                            match fs::read_to_string(path).await {
+                                Ok(content) => {
+                                    let results = worker.detect(&content);
+                                    // Process and output results here
+                                }
+                                Err(e) => {
+                                    eprintln!("Failed to read file: {}", e);
+                                    // Continue to next file
+                                }
+                            }
+                        }
+                        Err(e) => eprintln!("Error reading path: {}", e),
+                    }
+                }
             }
         },
     }

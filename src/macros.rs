@@ -4,9 +4,9 @@
 #[macro_export]
 macro_rules! common_struct_trait {
     ($name:ident, $($field:ident: $type:ty),*) => {
-        #[derive(Debug, Deserialize)]
+        #[derive(Debug, Deserialize,Clone)]
         pub struct $name {
-            $($field: $type),*
+            $(pub $field: $type),*
         }
     };
 }

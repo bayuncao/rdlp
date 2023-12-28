@@ -13,7 +13,10 @@ common_struct_trait!(Detect, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Filter, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Verify, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Rules, mask:Mask,switch: Switch, item: Vec<Item>);
-common_struct_trait!(Conf, summary: Summary, rules: Rules);
+common_struct_trait!(Logger, output: String, log_file_path: String, log_level: String);
+
+
+common_struct_trait!(Conf, summary: Summary, logger:Logger,rules: Rules);
 
 #[allow(dead_code)]
 pub struct SingletonConf {

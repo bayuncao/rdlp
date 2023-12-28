@@ -50,7 +50,19 @@ impl Worker {
             // Check regex matches
             for reg in &detect.reg {
                 let regex = Regex::new(reg).unwrap(); // Handle errors as appropriate
-                if regex.is_match(text.as_bytes()) { // Convert &str to &[u8]
+        // Convert text to &str if it's &[u8]
+        match std::str::from_utf8(text) {
+            Ok(str_text) => {
+                if regex.is_match(str_text) {
+                    matched_items.push(item.clone()); // Assuming Item implements Clone
+                    break;
+                }
+            }
+            Err(e) => {
+                eprintln!("Text is not valid UTF-8: {}", e);
+                // Handle the error
+            }
+        }
                     matched_items.push(item.clone()); // Assuming Item implements Clone
                     break;
                 }

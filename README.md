@@ -1,6 +1,6 @@
 
 <div align="center">
-<img src="./docs/head-cover.png" alt="logo"/>
+<img src="./docs/head-cover.png" width="200" height="200" alt="logo"/>
 
 <h1 align="center">rdlp</h1>
 

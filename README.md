@@ -15,3 +15,38 @@ To safeguard enterprise data security and privacy, our project (`rdlp`) encompas
 The `rdlp` project also supports various privacy compliance standards, enabling the classification and labeling of original data, determination of sensitivity levels, and implementation of corresponding desensitization measures in accordance with these standards. This facilitates global compliance with multiple data protection regulations and provides sensitive responses to changes in these laws.
 
 Our goal with `rdlp` is to provide enterprises with a comprehensive and customizable data security and privacy solution. We address the growing challenges of data privacy, ensuring the confidentiality and integrity of data in today's dynamic digital landscape.
+
+
+## Features and Advantages
+Comprehensive Data Protection: rdlp provides robust mechanisms for the identification and protection of sensitive data across various formats.
+Customizable Solutions: Tailor the data protection strategies to suit specific organizational needs and compliance requirements.
+Advanced Technology: Leverage cutting-edge algorithms for accurate data detection and secure desensitization techniques.
+
+## Quick Start
+
+
+## Installation Guide
+
+
+## Usage Instructions
+
+
+## Integrate
+
+
+## Contribution
+We welcome and encourage community contributions to rdlp. Here, you will find guidelines on how to submit issues, feature requests, or code contributions.
+
+
+## License
+rdlp is released under the [MIT license](LICENSE.md).
+
+## Community
+Join our community to participate in discussions, get support, and feedback.
+
+## Contributors
+
+## Changelog
+
+## User Case
+

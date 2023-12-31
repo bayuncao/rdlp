@@ -30,6 +30,7 @@ enum Commands {
     Test(Test),
     #[command(flatten)]
     Run(Run),
+
 }
 
 #[derive(Subcommand)]
@@ -87,7 +88,7 @@ struct Local {
 
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
 
     match &cli.command {
@@ -100,8 +101,10 @@ async fn main() {
             }
         }
         Commands::Run(run) => match run {
+
             Run::Server(server) => {
-                let port = server.port;
+                start_server(server.port).await?;
+
             }
             Run::Local(local) => {
                 let directory = &local.directory;
@@ -132,6 +135,7 @@ async fn main() {
             }
         },
     }
+    Ok(())
 }
 
 
@@ -146,6 +150,27 @@ pub fn validate_config(file: &str) -> Result<(), &'static str> {
     for item in &conf.rules.item {
         let _ = item;
     }
+
+    Ok(())
+}
+
+
+async fn start_server(port: u16) -> Result<(), Box<dyn std::error::Error>> {
+    // Use 'actix-web' or similar library to start an HTTP server
+    // Example with 'actix-web':
+    use actix_web::{web, App, HttpServer, Responder};
+
+    async fn index() -> impl Responder {
+        "Hello, world!"
+    }
+
+    HttpServer::new(|| {
+        App::new()
+            .route("/", web::post().to(index)) // Handle POST requests
+    })
+    .bind(format!("127.0.0.1:{}", port))?
+    .run()
+    .await?;
 
     Ok(())
 }

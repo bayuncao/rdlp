@@ -1,5 +1,28 @@
 
-# rdlp - Rust 数据丢失预防
+
+<div align="center">
+<img src="./docs/head-cover.png" alt="logo"/>
+
+<h1 align="center">rdlp</h1>
+
+<span align="center">Rust开发的数据安全治理开源工具&库
+。</span>
+
+[English](../README.md) / 简体中文
+
+
+![Windows][Windows-image]
+![MacOS][MacOS-image]
+![Linux][Linux-image]
+![Docker][Docker-image]
+
+
+[Windows-image]: https://img.shields.io/badge/-Windows-yello?logo=windows
+[MacOS-image]: https://img.shields.io/badge/-MacOS-black?logo=apple
+[Linux-image]: https://img.shields.io/badge/-Linux-333?logo=ubuntu
+[Docker-image]: https://img.shields.io/badge/-Docker-blue?logo=docker
+
+</div>
 
 ## 背景
 

@@ -1,4 +1,26 @@
-# rdlp rust for data loss prevention
+
+<div align="center">
+<img src="./docs/head-cover.png" alt="logo"/>
+
+<h1 align="center">rdlp</h1>
+
+<span align="center">A data security governance open-source tool and library developed in Rust.</span>
+
+English / [简体中文](./docs/README.zh-CN.md)
+
+
+![Windows][Windows-image]
+![MacOS][MacOS-image]
+![Linux][Linux-image]
+![Docker][Docker-image]
+
+
+[Windows-image]: https://img.shields.io/badge/-Windows-yello?logo=windows
+[MacOS-image]: https://img.shields.io/badge/-MacOS-black?logo=apple
+[Linux-image]: https://img.shields.io/badge/-Linux-333?logo=ubuntu
+[Docker-image]: https://img.shields.io/badge/-Docker-blue?logo=docker
+
+</div>
 
 ## Background
 

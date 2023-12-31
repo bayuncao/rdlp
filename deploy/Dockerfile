@@ -1,23 +1,18 @@
-# Start from the latest Rust base image
-FROM rust:latest as builder
+# This is a pre-built Dockerfile, which may change along with updates to the rdlp project.
+# If you intend to run rdlp in a production environment in a containerized manner,
+# please ensure that you are proficient in the operations of building containerized Rust applications.
+FROM rust:1.75-slim-bookworm as builder
 
-# Create a new empty shell project
-RUN USER=root cargo new --bin myproject
-WORKDIR /rdlp
+WORKDIR /usr/src/rdlp
 
-# Copy our source code
+COPY Cargo.toml Cargo.lock ./
 COPY ./src ./src
-COPY ./Cargo.toml ./Cargo.toml
-COPY ./Cargo.lock ./Cargo.lock
 
-# Build our application
-RUN cargo build --release
+RUN cargo install --path .
 
-# Start a new stage
-FROM debian:buster-slim
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y extra-runtime-dependencies
 
-# Copy the build artifact from the builder stage and set the executable as the command
-COPY --from=builder /rdlp/target/release/rdlp /usr/local/bin
+COPY --from=builder /usr/local/cargo/bin/rdlp /usr/local/bin/rdlp
 
-# Set the startup command to run the binary
 CMD ["rdlp"]

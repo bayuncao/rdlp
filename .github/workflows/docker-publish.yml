@@ -25,4 +25,4 @@ jobs:
         context: .
         file: ./deploy/Dockerfile
         push: true
-        tags: bayuncao/rdlp:${{ github.event.release.tag_name }}
+        tags: bayuncao/rdlp:${{ github.event.release.tag_name || 'dev' }}

@@ -11,7 +11,7 @@ COPY ./src ./src
 RUN cargo install --path .
 
 FROM debian:bookworm-slim
-RUN apt-get update && apt-get install -y extra-runtime-dependencies
+RUN apt-get update && apt-get upgrade
 
 COPY --from=builder /usr/local/cargo/bin/rdlp /usr/local/bin/rdlp
 

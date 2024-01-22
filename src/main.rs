@@ -2,41 +2,49 @@ mod conf;
 mod engine;
 mod logger;
 mod result;
+
 use crate::conf::conf::Conf;
 use crate::engine::engine::Worker;
+use crate::logger::logger::setup_logger;
 use clap::{Args, Parser, Subcommand};
 
+use glob::glob;
 use tokio::fs;
 use tokio::io::AsyncReadExt;
-use glob::glob;
-
 
 #[derive(Parser)]
 #[command(
-    author = "bayuncao",
-    version = "1.0.0",
-    about = "About rdlp",
-    long_about = "Long about rdlp"
+author = "bayuncao",
+version = "1.0.0",
+about = "About rdlp",
+long_about = "Long about rdlp"
 )]
+
 #[command(propagate_version = true)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
 }
 
+
 #[derive(Subcommand)]
 enum Commands {
     Doctor(Doctor),
     Test(Test),
-    #[command(flatten)]
     Run(Run),
+}
 
+
+#[derive(Args)]
+struct Run {
+    #[command(subcommand)]
+    command: RunCommands,
 }
 
 #[derive(Subcommand)]
-enum Run {
-    Server(Server),
+enum RunCommands {
     Local(Local),
+    Server(Server),
 }
 
 #[derive(Args)]
@@ -47,10 +55,10 @@ struct Doctor {
 #[derive(Args)]
 struct Test {
     #[arg(
-        short = 'f',
-        long = "file",
-        default_value = "development.toml",
-        help = "Validate the given configuration file (default is <development.toml>)"
+    short = 'f',
+    long = "file",
+    default_value = "development.toml",
+    help = "Validate the given configuration file (default is <development.toml>)"
     )]
     file: String,
 }
@@ -58,38 +66,54 @@ struct Test {
 #[derive(Args)]
 struct Server {
     #[arg(
-        short = 'p',
-        long = "port",
-        default_value_t = 6000,
-        help = "rdlp will open a local port service http://localhost:<:port> to listen for post requests."
+    short = 'p',
+    long = "port",
+    default_value_t = 6000,
+    help = "rdlp will open a local port service http://localhost:<:port> to listen for post requests."
     )]
     port: u16,
+    log_output: String,
+    #[arg(
+    short = 'c',
+    long = "config",
+    default_value = "development.toml",
+    help = "Path to the configuration file (default is <development.toml>)"
+    )]
+    config_file: String,
+
 }
 
 #[derive(Args)]
 struct Local {
     #[arg(
-        short = 'd',
-        long = "directory",
-        default_value = "data",
-        help = "When running in local mode, read the path where the original text data file is stored."
+    short = 'd',
+    long = "directory",
+    default_value = "data",
+    help = "When running in local mode, read the path where the original text data file is stored."
     )]
     directory: String,
     #[arg(
-        short = 's',
-        long = "suffix",
-        default_value = ".txt",
-        help = "When running in local mode, read the suffix of the original text data file(These files need to be in the directory of the -d/--directory parameter)."
+    short = 's',
+    long = "suffix",
+    default_value = ".txt",
+    help = "When running in local mode, read the suffix of the original text data file(These files need to be in the directory of the -d/--directory parameter)."
     )]
     suffix: String,
+    log_output: String,
+    #[arg(
+    short = 'c',
+    long = "config",
+    default_value = "development.toml",
+    help = "Path to the configuration file (default is <development.toml>)"
+    )]
+    config_file: String,
+
 }
-
-
-
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
+
 
     match &cli.command {
         Commands::Doctor(_) => {}
@@ -100,13 +124,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 Err(e) => println!("Configuration file is invalid: {}", e),
             }
         }
-        Commands::Run(run) => match run {
+        Commands::Run(run) => match &run.command {
 
-            Run::Server(server) => {
+
+            RunCommands::Server(server) => {
+                let config = load_config(&server.config_file)?;
+                setup_logger(&config.logger)?;
                 start_server(server.port).await?;
-
             }
-            Run::Local(local) => {
+            RunCommands::Local(local) => {
+                let config = load_config(&local.config_file)?;
+                setup_logger(&config.logger)?;
                 let directory = &local.directory;
                 let suffix = &local.suffix;
 
@@ -138,12 +166,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-
-
-
 pub fn validate_config(file: &str) -> Result<(), &'static str> {
-    let conf_string = std::fs::read_to_string(file).map_err(|_| "Failed to read configuration file")?;
-    let conf: Conf = toml::from_str(&conf_string).map_err(|_| "Failed to parse configuration file")?;
+    let conf_string =
+        std::fs::read_to_string(file).map_err(|_| "Failed to read configuration file")?;
+    let conf: Conf =
+        toml::from_str(&conf_string).map_err(|_| "Failed to parse configuration file")?;
 
     // Check each configuration item
     // This is a placeholder, replace it with your actual validation logic
@@ -153,7 +180,6 @@ pub fn validate_config(file: &str) -> Result<(), &'static str> {
 
     Ok(())
 }
-
 
 async fn start_server(port: u16) -> Result<(), Box<dyn std::error::Error>> {
     // Use 'actix-web' or similar library to start an HTTP server
@@ -165,12 +191,17 @@ async fn start_server(port: u16) -> Result<(), Box<dyn std::error::Error>> {
     }
 
     HttpServer::new(|| {
-        App::new()
-            .route("/", web::post().to(index)) // Handle POST requests
+        App::new().route("/", web::post().to(index)) // Handle POST requests
     })
-    .bind(format!("127.0.0.1:{}", port))?
-    .run()
-    .await?;
+        .bind(format!("127.0.0.1:{}", port))?
+        .run()
+        .await?;
 
     Ok(())
+}
+
+pub fn load_config(file: &str) -> Result<Conf, Box<dyn std::error::Error>> {
+    let conf_string = std::fs::read_to_string(file)?;
+    let conf: Conf = toml::from_str(&conf_string)?;
+    Ok(conf)
 }

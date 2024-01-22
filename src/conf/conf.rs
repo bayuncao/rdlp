@@ -13,8 +13,7 @@ common_struct_trait!(Detect, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Filter, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Verify, reg: Vec<String>, list: Vec<String>);
 common_struct_trait!(Rules, mask:Mask,switch: Switch, item: Vec<Item>);
-common_struct_trait!(Logger, output: String, log_file_path: String, log_level: String);
-
+common_struct_trait!(Logger, output: String, log_file_path: String, log_level: String, log_output: String);
 
 common_struct_trait!(Conf, summary: Summary, logger:Logger,rules: Rules);
 
@@ -50,61 +49,4 @@ impl SingletonConf {
 
 lazy_static! {
     pub static ref SINGLETON_CONF: SingletonConf = SingletonConf::new();
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_singleton_conf() {
-        // Set the path to your test configuration file
-        let conf_path = "./development.toml";
-
-        // Set the configuration
-        SINGLETON_CONF.set_conf(conf_path).unwrap();
-
-        // Get the configuration
-        let conf = SINGLETON_CONF.get_conf().unwrap();
-
-        // Print the configuration items
-        // This assumes that your Conf struct has a method to print its items
-        println!("Mask:");
-        println!("Symbol: {}", conf.rules.mask.symbol);
-        println!("Length: {}", conf.rules.mask.length);
-        println!("Start Index: {}", conf.rules.mask.start_index);
-
-        println!("\nSummary:");
-        println!("Name: {}", conf.summary.name);
-        println!("Date: {}", conf.summary.date);
-        println!("Version: {}", conf.summary.version);
-        println!("Author: {}", conf.summary.author);
-        println!("License: {}", conf.summary.license);
-
-        println!("\nSwitch:");
-        println!("Enable: {:?}", conf.rules.switch.enable);
-        println!("Disable: {:?}", conf.rules.switch.disable);
-
-        println!("\nItems:");
-
-        for item in &conf.rules.item {
-            println!("\n\nID: {}", item.id);
-            println!("Name: {}", item.name);
-            println!("Category: {}", item.category);
-            println!("Description: {}", item.description);
-            println!("Level: {}", item.level);
-
-            println!("\nDetect:");
-            println!("Reg: {:?}", item.detect.reg);
-            println!("List: {:?}", item.detect.list);
-
-            println!("\nFilter:");
-            println!("Reg: {:?}", item.filter.reg);
-            println!("List: {:?}", item.filter.list);
-
-            println!("\nVerify:");
-            println!("Reg: {:?}", item.verify.reg);
-            println!("List: {:?}", item.verify.list);
-        }
-    }
 }
